@@ -3,114 +3,18 @@ import { Moon, Sun, RotateCcw, Keyboard, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Card, CardContent } from '@/components/ui/card';
-
-interface KeyData {
-  code: string;
-  label: string;
-  width?: string;
-  type?: 'modifier' | 'function' | 'normal';
-}
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { layouts, KeyData } from '@/lib/layouts';
 
 interface KeyState {
   pressed: boolean;
   count: number;
 }
 
-const keyboardLayout: KeyData[][] = [
-  // Function keys row
-  [
-    { code: 'Escape', label: 'Esc', type: 'function' },
-    { code: 'F1', label: 'F1', type: 'function' },
-    { code: 'F2', label: 'F2', type: 'function' },
-    { code: 'F3', label: 'F3', type: 'function' },
-    { code: 'F4', label: 'F4', type: 'function' },
-    { code: 'F5', label: 'F5', type: 'function' },
-    { code: 'F6', label: 'F6', type: 'function' },
-    { code: 'F7', label: 'F7', type: 'function' },
-    { code: 'F8', label: 'F8', type: 'function' },
-    { code: 'F9', label: 'F9', type: 'function' },
-    { code: 'F10', label: 'F10', type: 'function' },
-    { code: 'F11', label: 'F11', type: 'function' },
-    { code: 'F12', label: 'F12', type: 'function' },
-  ],
-  // Number row
-  [
-    { code: 'Backquote', label: '`', type: 'normal' },
-    { code: 'Digit1', label: '1', type: 'normal' },
-    { code: 'Digit2', label: '2', type: 'normal' },
-    { code: 'Digit3', label: '3', type: 'normal' },
-    { code: 'Digit4', label: '4', type: 'normal' },
-    { code: 'Digit5', label: '5', type: 'normal' },
-    { code: 'Digit6', label: '6', type: 'normal' },
-    { code: 'Digit7', label: '7', type: 'normal' },
-    { code: 'Digit8', label: '8', type: 'normal' },
-    { code: 'Digit9', label: '9', type: 'normal' },
-    { code: 'Digit0', label: '0', type: 'normal' },
-    { code: 'Minus', label: '-', type: 'normal' },
-    { code: 'Equal', label: '=', type: 'normal' },
-    { code: 'Backspace', label: '← Backspace', width: 'w-24', type: 'modifier' },
-  ],
-  // QWERTY row
-  [
-    { code: 'Tab', label: 'Tab', width: 'w-16', type: 'modifier' },
-    { code: 'KeyQ', label: 'Q', type: 'normal' },
-    { code: 'KeyW', label: 'W', type: 'normal' },
-    { code: 'KeyE', label: 'E', type: 'normal' },
-    { code: 'KeyR', label: 'R', type: 'normal' },
-    { code: 'KeyT', label: 'T', type: 'normal' },
-    { code: 'KeyY', label: 'Y', type: 'normal' },
-    { code: 'KeyU', label: 'U', type: 'normal' },
-    { code: 'KeyI', label: 'I', type: 'normal' },
-    { code: 'KeyO', label: 'O', type: 'normal' },
-    { code: 'KeyP', label: 'P', type: 'normal' },
-    { code: 'BracketLeft', label: '[', type: 'normal' },
-    { code: 'BracketRight', label: ']', type: 'normal' },
-    { code: 'Backslash', label: '\\', width: 'w-16', type: 'normal' },
-  ],
-  // Home row
-  [
-    { code: 'CapsLock', label: 'Caps Lock', width: 'w-20', type: 'modifier' },
-    { code: 'KeyA', label: 'A', type: 'normal' },
-    { code: 'KeyS', label: 'S', type: 'normal' },
-    { code: 'KeyD', label: 'D', type: 'normal' },
-    { code: 'KeyF', label: 'F', type: 'normal' },
-    { code: 'KeyG', label: 'G', type: 'normal' },
-    { code: 'KeyH', label: 'H', type: 'normal' },
-    { code: 'KeyJ', label: 'J', type: 'normal' },
-    { code: 'KeyK', label: 'K', type: 'normal' },
-    { code: 'KeyL', label: 'L', type: 'normal' },
-    { code: 'Semicolon', label: ';', type: 'normal' },
-    { code: 'Quote', label: "'", type: 'normal' },
-    { code: 'Enter', label: 'Enter', width: 'flex-1', type: 'modifier' },
-  ],
-  // Shift row
-  [
-    { code: 'ShiftLeft', label: 'Shift', width: 'w-24', type: 'modifier' },
-    { code: 'KeyZ', label: 'Z', type: 'normal' },
-    { code: 'KeyX', label: 'X', type: 'normal' },
-    { code: 'KeyC', label: 'C', type: 'normal' },
-    { code: 'KeyV', label: 'V', type: 'normal' },
-    { code: 'KeyB', label: 'B', type: 'normal' },
-    { code: 'KeyN', label: 'N', type: 'normal' },
-    { code: 'KeyM', label: 'M', type: 'normal' },
-    { code: 'Comma', label: ',', type: 'normal' },
-    { code: 'Period', label: '.', type: 'normal' },
-    { code: 'Slash', label: '/', type: 'normal' },
-    { code: 'ShiftRight', label: 'Shift', width: 'flex-1', type: 'modifier' },
-  ],
-  // Bottom row
-  [
-    { code: 'ControlLeft', label: 'Ctrl', width: 'w-16', type: 'modifier' },
-    { code: 'MetaLeft', label: 'Win', width: 'w-14', type: 'modifier' },
-    { code: 'AltLeft', label: 'Alt', width: 'w-14', type: 'modifier' },
-    { code: 'Space', label: 'Space', width: 'flex-1', type: 'normal' },
-    { code: 'AltRight', label: 'Alt', width: 'w-14', type: 'modifier' },
-    { code: 'MetaRight', label: 'Win', width: 'w-14', type: 'modifier' },
-    { code: 'ControlRight', label: 'Ctrl', width: 'w-16', type: 'modifier' },
-  ],
-];
+
 
 function App() {
+  const [layoutSize, setLayoutSize] = useState('100%');
   const [keyStates, setKeyStates] = useState<Record<string, KeyState>>({});
   const [lastKey, setLastKey] = useState<{ code: string; key: string } | null>(null);
   const [totalPresses, setTotalPresses] = useState(0);
@@ -239,6 +143,19 @@ function App() {
               />
               <Moon className={`w-4 h-4 ${darkMode ? 'text-cyan-400' : 'text-slate-400'}`} />
             </div>
+            
+            <Select value={layoutSize} onValueChange={setLayoutSize}>
+              <SelectTrigger className={`w-24 h-9 ${darkMode ? 'bg-slate-900 border-slate-700 text-slate-200' : 'bg-white border-slate-300 text-slate-700'}`}>
+                <SelectValue placeholder="Layout" />
+              </SelectTrigger>
+              <SelectContent className={darkMode ? 'bg-slate-900 border-slate-700 text-slate-200' : 'bg-white border-slate-300 text-slate-700'}>
+                <SelectItem value="60%">60%</SelectItem>
+                <SelectItem value="75%">75%</SelectItem>
+                <SelectItem value="100%">100%</SelectItem>
+                <SelectItem value="110%">110%</SelectItem>
+                <SelectItem value="120%">120%</SelectItem>
+              </SelectContent>
+            </Select>
             <Button
               variant="outline"
               size="sm"
@@ -267,21 +184,26 @@ function App() {
         <Card className={`mb-8 ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'} overflow-hidden`}>
           <CardContent className="p-4 md:p-6">
             <div className="space-y-2">
-              {keyboardLayout.map((row, rowIndex) => (
+              {layouts[layoutSize].map((row, rowIndex) => (
                 <div key={rowIndex} className="flex gap-1 md:gap-1.5 justify-center">
-                  {row.map((key) => (
-                    <div
-                      key={key.code}
-                      className={`${key.width || 'w-8 md:w-12'} ${getKeyStyle(key)}`}
-                    >
-                      <span className="truncate px-1">{key.label}</span>
-                      {keyStates[key.code]?.count > 0 && (
-                        <span className={`absolute -top-1 -right-1 w-4 h-4 rounded-full text-[10px] flex items-center justify-center ${darkMode ? 'bg-cyan-500 text-white' : 'bg-cyan-500 text-white'}`}>
-                          {keyStates[key.code].count > 9 ? '9+' : keyStates[key.code].count}
-                        </span>
-                      )}
-                    </div>
-                  ))}
+                  {row.map((key) => {
+                    if (key.type === 'spacer') {
+                      return <div key={key.code} className={`${key.width} flex-shrink-0`} />
+                    }
+                    return (
+                      <div
+                        key={key.code}
+                        className={`${key.width || 'w-8 md:w-12'} ${getKeyStyle(key)}`}
+                      >
+                        <span className="truncate px-1">{key.label}</span>
+                        {keyStates[key.code]?.count > 0 && (
+                          <span className={`absolute -top-1 -right-1 w-4 h-4 rounded-full text-[10px] flex items-center justify-center ${darkMode ? 'bg-cyan-500 text-white' : 'bg-cyan-500 text-white'}`}>
+                            {keyStates[key.code].count > 9 ? '9+' : keyStates[key.code].count}
+                          </span>
+                        )}
+                      </div>
+                    )
+                  })}
                 </div>
               ))}
             </div>
