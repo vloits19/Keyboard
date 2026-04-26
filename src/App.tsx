@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { layouts, KeyData } from '@/lib/layouts';
+import { layouts, type KeyData } from '@/lib/layouts';
 
 interface KeyState {
   pressed: boolean;
