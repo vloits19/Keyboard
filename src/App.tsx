@@ -76,31 +76,31 @@ function App() {
     let baseClasses = `
       relative flex items-center justify-center
       h-12 md:h-14 rounded-lg
-      font-medium text-sm md:text-base
-      transition-all duration-75 ease-out
+      font-semibold text-sm md:text-base
+      transition-all duration-100 ease-out
       select-none cursor-default
-      border-2
+      border shadow-sm
     `;
     
     if (darkMode) {
       if (isPressed) {
-        baseClasses += ' bg-gradient-to-br from-cyan-500 to-blue-600 border-cyan-400 text-white shadow-lg shadow-cyan-500/50 scale-95';
+        baseClasses += ' key-pressed bg-slate-800 border-cyan-400 text-white';
       } else if (isModifier) {
-        baseClasses += ' bg-slate-800 border-slate-600 text-slate-300 hover:border-slate-500';
+        baseClasses += ' bg-slate-800/80 border-slate-700 text-slate-300 border-b-4 hover:border-slate-500 hover:bg-slate-700/80';
       } else if (isFunction) {
-        baseClasses += ' bg-slate-800 border-slate-600 text-slate-400 hover:border-slate-500';
+        baseClasses += ' bg-slate-800/60 border-slate-700 text-slate-400 border-b-4 hover:border-slate-500 hover:bg-slate-700/60';
       } else {
-        baseClasses += ' bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-500';
+        baseClasses += ' bg-slate-900/80 border-slate-700 text-slate-200 border-b-4 hover:border-slate-500 hover:bg-slate-800/80';
       }
     } else {
       if (isPressed) {
-        baseClasses += ' bg-gradient-to-br from-cyan-500 to-blue-600 border-cyan-400 text-white shadow-lg shadow-cyan-500/50 scale-95';
+        baseClasses += ' key-pressed bg-white border-cyan-500 text-cyan-600';
       } else if (isModifier) {
-        baseClasses += ' bg-slate-200 border-slate-400 text-slate-700 hover:border-slate-500';
+        baseClasses += ' bg-slate-200 border-slate-300 text-slate-700 border-b-4 hover:border-slate-400 hover:bg-slate-300';
       } else if (isFunction) {
-        baseClasses += ' bg-slate-100 border-slate-300 text-slate-600 hover:border-slate-400';
+        baseClasses += ' bg-slate-100 border-slate-300 text-slate-600 border-b-4 hover:border-slate-400 hover:bg-slate-200';
       } else {
-        baseClasses += ' bg-white border-slate-300 text-slate-700 hover:border-slate-400';
+        baseClasses += ' bg-white border-slate-300 text-slate-800 border-b-4 hover:border-slate-400 hover:bg-slate-50';
       }
     }
     
@@ -115,19 +115,19 @@ function App() {
   };
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-slate-950' : 'bg-slate-50'}`}>
+    <div className={`min-h-screen transition-colors duration-500 ${darkMode ? 'bg-mesh-dark text-slate-50' : 'bg-mesh-light text-slate-900'}`}>
       {/* Header */}
-      <header className={`py-6 px-4 border-b ${darkMode ? 'border-slate-800 bg-slate-900/50' : 'border-slate-200 bg-white/50'} backdrop-blur-sm`}>
+      <header className={`py-6 px-4 border-b ${darkMode ? 'border-white/10 glass-panel-dark' : 'border-black/5 glass-panel-light'} sticky top-0 z-50`}>
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className={`p-2 rounded-xl ${darkMode ? 'bg-gradient-to-br from-cyan-500 to-blue-600' : 'bg-gradient-to-br from-cyan-500 to-blue-600'}`}>
+            <div className={`p-2 rounded-xl ${darkMode ? 'bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/30' : 'bg-gradient-to-br from-cyan-500 to-blue-600 shadow-md'}`}>
               <Keyboard className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+              <h1 className="text-3xl font-extrabold tracking-tight rgb-text drop-shadow-sm">
                 Keyboard Tester
               </h1>
-              <p className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+              <p className={`text-sm font-medium mt-0.5 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                 Test every key on your keyboard
               </p>
             </div>
@@ -170,18 +170,18 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-6xl mx-auto px-4 py-8">
+      <main className="max-w-6xl mx-auto px-4 py-8 relative z-10">
         {/* Instructions */}
-        <div className={`mb-8 p-4 rounded-xl ${darkMode ? 'bg-slate-900/50 border border-slate-800' : 'bg-white border border-slate-200'} flex items-start gap-3`}>
+        <div className={`mb-8 p-4 rounded-xl ${darkMode ? 'glass-panel-dark border-transparent' : 'glass-panel-light border-transparent'} flex items-start gap-3 shadow-md`}>
           <Info className={`w-5 h-5 mt-0.5 flex-shrink-0 ${darkMode ? 'text-cyan-400' : 'text-cyan-600'}`} />
-          <p className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+          <p className={`text-sm font-medium ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
             Press any key on your keyboard to test it. Pressed keys will glow and highlight in real-time. 
             The key code and press count will be displayed below.
           </p>
         </div>
 
         {/* Keyboard */}
-        <Card className={`mb-8 ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'} overflow-hidden`}>
+        <Card className={`mb-8 ${darkMode ? 'glass-panel-dark border-transparent' : 'glass-panel-light border-transparent'} overflow-hidden shadow-xl`}>
           <CardContent className="p-4 md:p-6">
             <div className="space-y-2">
               {layouts[layoutSize].map((row, rowIndex) => (
@@ -213,13 +213,13 @@ function App() {
         {/* Info Panel */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Last Key Pressed */}
-          <Card className={`${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
+          <Card className={`${darkMode ? 'glass-panel-dark border-transparent' : 'glass-panel-light border-transparent'} shadow-lg`}>
             <CardContent className="p-6">
               <p className={`text-sm font-medium mb-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                 Last Key Pressed
               </p>
               <div className="flex items-center gap-4">
-                <div className={`text-4xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+                <div className={`text-4xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} drop-shadow-sm`}>
                   {lastKey?.key || '-'}
                 </div>
                 <div className={`text-sm ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
@@ -230,24 +230,24 @@ function App() {
           </Card>
 
           {/* Key Code */}
-          <Card className={`${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
+          <Card className={`${darkMode ? 'glass-panel-dark border-transparent' : 'glass-panel-light border-transparent'} shadow-lg`}>
             <CardContent className="p-6">
               <p className={`text-sm font-medium mb-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                 Key Code
               </p>
-              <div className={`text-2xl font-mono font-bold ${darkMode ? 'text-cyan-400' : 'text-cyan-600'}`}>
+              <div className={`text-2xl font-mono font-bold ${darkMode ? 'text-cyan-400' : 'text-cyan-600'} drop-shadow-sm`}>
                 {lastKey?.code || '---'}
               </div>
             </CardContent>
           </Card>
 
           {/* Total Presses */}
-          <Card className={`${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
+          <Card className={`${darkMode ? 'glass-panel-dark border-transparent' : 'glass-panel-light border-transparent'} shadow-lg`}>
             <CardContent className="p-6">
               <p className={`text-sm font-medium mb-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                 Total Key Presses
               </p>
-              <div className={`text-4xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+              <div className={`text-4xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'} drop-shadow-sm`}>
                 {totalPresses.toLocaleString()}
               </div>
             </CardContent>
@@ -256,7 +256,7 @@ function App() {
 
         {/* Active Keys */}
         {Object.entries(keyStates).filter(([, state]) => state.count > 0).length > 0 && (
-          <Card className={`mt-4 ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
+          <Card className={`mt-4 ${darkMode ? 'glass-panel-dark border-transparent' : 'glass-panel-light border-transparent'} shadow-lg`}>
             <CardContent className="p-6">
               <p className={`text-sm font-medium mb-4 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                 Keys Tested
