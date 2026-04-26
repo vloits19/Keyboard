@@ -333,7 +333,7 @@ function App() {
         </div>
 
         {/* Active Keys */}
-        {Object.entries(keyStates).filter(([_, state]) => state.count > 0).length > 0 && (
+        {Object.entries(keyStates).filter(([, state]) => state.count > 0).length > 0 && (
           <Card className={`mt-4 ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
             <CardContent className="p-6">
               <p className={`text-sm font-medium mb-4 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
@@ -341,7 +341,7 @@ function App() {
               </p>
               <div className="flex flex-wrap gap-2">
                 {Object.entries(keyStates)
-                  .filter(([_, state]) => state.count > 0)
+                  .filter(([, state]) => state.count > 0)
                   .sort((a, b) => b[1].count - a[1].count)
                   .map(([code, state]) => (
                     <span
