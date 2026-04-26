@@ -243,7 +243,7 @@ function App() {
               variant="outline"
               size="sm"
               onClick={resetTest}
-              className={`gap-2 ${darkMode ? 'border-slate-600 text-slate-300 hover:bg-slate-800' : 'border-slate-300 text-slate-700 hover:bg-slate-100'}`}
+              className={`gap-2 ${darkMode ? 'bg-transparent border-slate-600 text-slate-300 hover:bg-slate-800 hover:text-slate-100' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'}`}
             >
               <RotateCcw className="w-4 h-4" />
               Reset
